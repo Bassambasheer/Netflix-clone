@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:netflix/core/constants.dart';
 import 'package:netflix/presentation/home/widgets;/movie_caetgories.dart';
+import 'package:netflix/presentation/search/screen_search.dart';
 import 'package:netflix/presentation/search/widgets/search_result.dart';
 
 class ScreenHome extends StatefulWidget {
@@ -11,19 +12,17 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
-  final List dummyData = List.generate(50, (index) => MainCard());
-
   @override
   Widget build(BuildContext context) {
+    final screenwidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
         body: CustomScrollView(
-          
           shrinkWrap: true,
           slivers: [
             SliverAppBar(
-              pinned: true,
+              floating: true,
               title: Column(
                 children: [
                   const SizedBox(
@@ -87,7 +86,6 @@ class _ScreenHomeState extends State<ScreenHome> {
                   fit: BoxFit.cover,
                 ),
               ),
-             
               toolbarHeight: 70,
             ),
             SliverToBoxAdapter(
@@ -178,16 +176,75 @@ class _ScreenHomeState extends State<ScreenHome> {
                             ],
                           ),
                         ]),
-                  MovieCategories(title: "Popular on Netflix",),
-                  MovieCategories(title: "Sci-fi Movies",),
-                  MovieCategories(title: "Action Movies",),
-                   MovieCategories(title: "Trending Now",),
-                     MovieCategories(title: "Popular on Netflix",),
-                  MovieCategories(title: "Sci-fi Movies",),
-                  MovieCategories(title: "Action Movies",),
-                   MovieCategories(title: "Trending Now",),
-                   
-                  
+                    MovieCategories(
+                      title: "Popular on Netflix",
+                    ),
+                    MovieCategories(
+                      title: "Sci-fi Movies",
+                    ),
+                    MovieCategories(
+                      title: "Action Movies",
+                    ),
+                    MovieCategories(
+                      title: "Trending Now",
+                    ),
+                    kheight,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "Top 10",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 150,
+                      child: ListView.separated(
+                        itemCount: 10,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (ctx, index) {
+                          return SizedBox(
+                          
+                            width: screenwidth*0.46,
+                            height: 150,
+                            child: Stack(
+                              children: [
+                                 Text(
+                                     "${index+1}",
+                                     style: TextStyle(
+                                         fontSize: 150,
+                                          color: Colors.white,
+                                          backgroundColor: Colors.black),
+                                   ),
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    width: screenwidth * 0.3,
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                        image: const DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(imagecard)),
+                                        borderRadius: BorderRadius.circular(10)),
+                                  ),
+                                ),
+                                  
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) => kWidth,
+                      ),
+                    ),
                   ],
                 ),
               ),
